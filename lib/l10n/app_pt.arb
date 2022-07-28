@@ -1,0 +1,12 @@
+{
+    "appTitle": "Yask!",
+    "match": "Nova partida",
+    "matchName": "Nome da partida",
+    "initialScore": "Pontuação inicial",
+    "pleaseEnterSomeText": "Por favor insira algum texto",
+    "playerOrTeam": "Nome do jogador ou equipe",
+    "startMatch": "Começar a partida!",
+    "playersOrTeams": "Jogadores/equipes",
+    "noPlayersOrTeams": "Por favor adicione um jogador/equipe",
+    "playerOrTeamAlreadyExist": "Jogador/equipe já existe"
+}

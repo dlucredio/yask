@@ -1,0 +1,12 @@
+{
+    "appTitle": "Yask!",
+    "match": "New match",
+    "matchName": "Match name",
+    "initialScore": "Initial score",
+    "pleaseEnterSomeText": "Please enter some text",
+    "playerOrTeam": "Player/team name",
+    "startMatch": "Start match!",
+    "playersOrTeams": "Players/Teams",
+    "noPlayersOrTeams": "Please add a player/team",
+    "playerOrTeamAlreadyExist": "Player/team already exists"
+}
