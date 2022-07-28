@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:yask/database/database.dart';
 import 'package:yask/model/yask_model.dart';
+import 'package:yask/pages/match_page.dart';
 import 'package:yask/pages/new_match_page.dart';
 
 const mainPageRoute = '/';
@@ -64,7 +64,7 @@ class _MainPageState extends State<MainPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _newMatch,
-        tooltip: 'Increment',
+        tooltip: AppLocalizations.of(context)!.newMatch,
         child: const Icon(Icons.add),
       ),
     );
@@ -78,6 +78,10 @@ class MatchesList extends StatelessWidget {
       {Key? key, required this.matches, required this.deleteMatchCallback})
       : super(key: key);
 
+  void _showMatch(BuildContext context, YaskMatch match) {
+    Navigator.pushNamed(context, matchPageRoute, arguments: match.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -88,34 +92,35 @@ class MatchesList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        "${DateFormat.yMEd().format(matches[index].dateTime)}"
-                        " "
-                        "${DateFormat.jm().format(matches[index].dateTime)}",
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .apply(fontSizeFactor: 0.8)
-                            .apply(fontStyle: FontStyle.italic),
-                      ),
-                      Text(
-                        matches[index].name,
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .apply(fontSizeFactor: 1.5)
-                            .apply(fontWeightDelta: 2),
-                      ),
-                      Text(
-                        matches[index].players.join(', '),
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .apply(fontSizeFactor: 0.8),
-                      ),
-                    ],
+                child: GestureDetector(
+                  onTap: () => _showMatch(context, matches[index]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          matches[index].getFormattedDate(context),
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .apply(fontSizeFactor: 0.8)
+                              .apply(fontStyle: FontStyle.italic),
+                        ),
+                        Text(
+                          matches[index].name,
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .apply(fontSizeFactor: 1.5)
+                              .apply(fontWeightDelta: 2),
+                        ),
+                        Text(
+                          matches[index].players.join(', '),
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .apply(fontSizeFactor: 0.8),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

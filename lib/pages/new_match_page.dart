@@ -4,16 +4,11 @@ import 'package:uuid/uuid.dart';
 import 'package:yask/database/database.dart';
 import 'package:yask/model/yask_model.dart';
 
-const newMatchPageRoute = '/matchPage';
+const newMatchPageRoute = '/newMatch';
 
-class NewMatchPage extends StatefulWidget {
+class NewMatchPage extends StatelessWidget {
   const NewMatchPage({Key? key}) : super(key: key);
 
-  @override
-  State<NewMatchPage> createState() => _NewMatchPageState();
-}
-
-class _NewMatchPageState extends State<NewMatchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,10 +88,12 @@ class _NewMatchFormState extends State<NewMatchForm> {
 
     await DBProvider.db.insertNewYaskMatch(YaskMatch(
         id: matchId,
-        dateTime: DateTime.now(),
+        startDateTime: DateTime.now(),
+        endDateTime: DateTime.now(),
         name: matchNameController.text,
         initialScore: int.parse(initialScoreController.text),
-        players: players));
+        players: players,
+        rounds: []));
   }
 
   Widget buildMatchNameFormField(BuildContext context) {

@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:yask/custom_theme.dart';
 import 'package:yask/pages/main_page.dart';
+import 'package:yask/pages/match_page.dart';
 import 'package:yask/pages/new_match_page.dart';
 import 'package:flutter/services.dart';
 
@@ -12,6 +13,7 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   runApp(const MyApp());
 }
 
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         mainPageRoute: (context) => const MainPage(),
         newMatchPageRoute: (context) => const NewMatchPage(),
+        matchPageRoute: (context) => const MatchPage(),
       },
     );
   }

@@ -8,5 +8,10 @@
     "startMatch": "Começar a partida!",
     "playersOrTeams": "Jogadores/equipes",
     "noPlayersOrTeams": "Por favor adicione um jogador/equipe",
-    "playerOrTeamAlreadyExist": "Jogador/equipe já existe"
+    "playerOrTeamAlreadyExist": "Jogador/equipe já existe",
+    "to": "até",
+    "duration": "Duração",
+    "newMatch": "Nova partida",
+    "newRound": "Nova rodada",
+    "name": "Nome"
 }
