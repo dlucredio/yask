@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:uuid/uuid.dart';
+import 'package:yask/custom_theme.dart';
 import 'package:yask/database/database.dart';
 import 'package:yask/model/yask_model.dart';
 
@@ -13,7 +14,7 @@ class NewMatchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.match),
+        title: Text(AppLocalizations.of(context)!.newMatch),
       ),
       body: const Center(
         child: NewMatchForm(),
@@ -200,10 +201,7 @@ class _NewMatchFormState extends State<NewMatchForm> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40,
-          vertical: 5,
-        ),
+        padding: CustomTheme.defaultPageInsets,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,

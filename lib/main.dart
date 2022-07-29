@@ -6,6 +6,7 @@ import 'package:yask/pages/main_page.dart';
 import 'package:yask/pages/match_page.dart';
 import 'package:yask/pages/new_match_page.dart';
 import 'package:flutter/services.dart';
+import 'package:yask/pages/new_round_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         mainPageRoute: (context) => const MainPage(),
         newMatchPageRoute: (context) => const NewMatchPage(),
         matchPageRoute: (context) => const MatchPage(),
+        newRoundPageRoute: (context) => const NewRoundPage(),
       },
     );
   }

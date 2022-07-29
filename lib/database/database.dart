@@ -139,4 +139,14 @@ class DBProvider {
       whereArgs: [match.id],
     );
   }
+
+  Future<void> insertNewYaskRound(String matchId, YaskRound round) async {
+    final db = await database;
+    await db.insert(roundsTableName, {
+      'matchId': matchId,
+      'playerName': round.playerName,
+      'score': round.score,
+      'dateTime': round.dateTime.millisecondsSinceEpoch,
+    });
+  }
 }

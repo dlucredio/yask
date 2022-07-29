@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:yask/custom_theme.dart';
 import 'package:yask/database/database.dart';
 import 'package:yask/model/yask_model.dart';
 import 'package:yask/pages/match_page.dart';
@@ -74,9 +75,11 @@ class _MainPageState extends State<MainPage> {
 class MatchesList extends StatelessWidget {
   final List<YaskMatch> matches;
   final void Function(YaskMatch match) deleteMatchCallback;
-  const MatchesList(
-      {Key? key, required this.matches, required this.deleteMatchCallback})
-      : super(key: key);
+  const MatchesList({
+    Key? key,
+    required this.matches,
+    required this.deleteMatchCallback,
+  }) : super(key: key);
 
   void _showMatch(BuildContext context, YaskMatch match) {
     Navigator.pushNamed(context, matchPageRoute, arguments: match.id);
@@ -84,18 +87,26 @@ class MatchesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: matches.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => _showMatch(context, matches[index]),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+    return Padding(
+      padding: CustomTheme.defaultPageInsets,
+      child: ListView.builder(
+        itemCount: matches.length,
+        itemBuilder: (context, index) => ListTile(
+          title: Container(
+            margin: const EdgeInsets.all(3),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            decoration: const BoxDecoration(
+              color: Colors.indigo,
+              borderRadius: BorderRadius.all(
+                Radius.circular(15),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => _showMatch(context, matches[index]),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -123,15 +134,17 @@ class MatchesList extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              IconButton(
-                onPressed: () => deleteMatchCallback(matches[index]),
-                icon: const Icon(Icons.delete),
-              ),
-            ],
+                IconButton(
+                  onPressed: () {
+                    deleteMatchCallback(matches[index]);
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
+              ],
+            ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

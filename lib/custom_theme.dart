@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CustomTheme {
+  static EdgeInsets get defaultPageInsets => const EdgeInsets.symmetric(
+        horizontal: 30,
+        vertical: 15,
+      );
+  static Text getDefaultTitleText(String text) => Text(
+        text,
+        textScaleFactor: 1.5,
+      );
+
   static ThemeData get darkTheme {
     return ThemeData.dark().copyWith(
       primaryColor: Colors.purple[800],
