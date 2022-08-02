@@ -66,6 +66,16 @@ class YaskMatch {
     return ret;
   }
 
+  double getPlayerScore(String player) {
+    var ret = 0.0;
+
+    rounds.where((element) => element.playerName == player).forEach((element) {
+      ret += element.score;
+    });
+
+    return ret;
+  }
+
   factory YaskMatch.fromDatabaseMap(Map<String, dynamic> map) {
     return YaskMatch(
       id: map['id'],

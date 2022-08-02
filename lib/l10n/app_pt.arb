@@ -17,5 +17,6 @@
     "overallScore": "Pontuação geral",
     "enterPlayerScores": "Digite a pontuação dos jogadores",
     "errorInPlayerScores": "Por favor digite todas as pontuações corretamente e com valores válidos (ex: 10, 0, -2, 2.4, ...)",
-    "saveScores": "Salvar pontuações"
+    "saveScores": "Salvar pontuações",
+    "total": "Total"
 }

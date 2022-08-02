@@ -17,5 +17,6 @@
     "overallScore": "Overall score",
     "enterPlayerScores": "Enter player scores",
     "errorInPlayerScores": "Please fill all scores correctly and with valid numbers (ex: 10, 0, -2, 2.4, ...)",
-    "saveScores": "Save scores"
+    "saveScores": "Save scores",
+    "total": "Total"
 }

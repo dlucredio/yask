@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:yask/custom_theme.dart';
 import 'package:yask/database/database.dart';
 import 'package:yask/model/yask_model.dart';
@@ -6,6 +7,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:yask/pages/new_round_page.dart';
 
 const matchPageRoute = '/match';
+
+const matchTableBorderColor = Colors.white;
+const matchTableHeaderColor = Colors.indigo;
+const matchTableHeaderTextColor = Colors.white;
+const matchTableDataColor = Colors.black;
+const matchTableDataTextColor = Colors.white;
+const matchTableTotalScoreTextColor = Colors.amber;
 
 class MatchPage extends StatefulWidget {
   const MatchPage({Key? key}) : super(key: key);
@@ -65,12 +73,11 @@ class _MatchPageState extends State<MatchPage> {
                     ),
                     const SizedBox(height: 5),
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 20),
-                        child: SingleChildScrollView(
-                          child: RoundsTable(match: match),
-                        ),
+                      child: SingleChildScrollView(
+                        child: Row(children: [
+                          FixedColumnWidget(match: match),
+                          ScrollableColumnWidget(match: match)
+                        ]),
                       ),
                     ),
                   ],
@@ -92,53 +99,127 @@ class _MatchPageState extends State<MatchPage> {
   }
 }
 
-class RoundsTable extends StatelessWidget {
+class FixedColumnWidget extends StatelessWidget {
   final YaskMatch match;
-  const RoundsTable({Key? key, required this.match}) : super(key: key);
 
-  TableCell buildTableCell(String text, TextAlign textAlign) {
-    return TableCell(
-      child: Padding(
-        padding: const EdgeInsets.all(5),
-        child: Text(
-          text,
-          textAlign: textAlign,
-        ),
+  const FixedColumnWidget({Key? key, required this.match}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DataTable(
+      columnSpacing: 10,
+      horizontalMargin: 5,
+      headingRowColor: MaterialStateProperty.all(matchTableHeaderColor),
+      dataRowColor: MaterialStateProperty.all(matchTableHeaderColor),
+      border: TableBorder.all(
+        color: matchTableBorderColor,
+        width: 1,
       ),
+      columns: [
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.name,
+              textAlign: TextAlign.right,
+              style: const TextStyle(color: matchTableHeaderTextColor),
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.total,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: matchTableHeaderTextColor),
+            ),
+          ),
+        ),
+      ],
+      rows: [
+        ...match.players.map((player) => DataRow(
+              cells: [
+                DataCell(
+                  Container(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Text(
+                      player,
+                      style: const TextStyle(color: matchTableHeaderTextColor),
+                    ),
+                  ),
+                ),
+                DataCell(
+                  Container(
+                    alignment: AlignmentDirectional.center,
+                    child: Text(
+                      NumberFormat('########.#')
+                          .format(match.getPlayerScore(player)),
+                      style: const TextStyle(
+                        color: matchTableTotalScoreTextColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textScaleFactor: 1.5,
+                    ),
+                  ),
+                ),
+              ],
+            ))
+      ],
     );
   }
+}
+
+class ScrollableColumnWidget extends StatelessWidget {
+  final YaskMatch match;
+
+  const ScrollableColumnWidget({super.key, required this.match});
 
   @override
   Widget build(BuildContext context) {
     Map<String, List<YaskRound>> rounds = match.getPlayerRounds();
     int numRounds = rounds.entries.first.value.length;
-
-    final firstRowCells = List.generate(numRounds, (index) => index + 1)
-        .map((i) => buildTableCell('$i', TextAlign.center))
-        .toList();
-
-    final firstRow = TableRow(
-      children: <TableCell>[
-        buildTableCell(AppLocalizations.of(context)!.name, TextAlign.right),
-        ...firstRowCells
-      ],
-    );
-
-    final dataRows = <TableRow>[];
-    for (var entry in rounds.entries) {
-      final roundCells = entry.value
-          .map((r) => buildTableCell('${r.score}', TextAlign.center));
-      final playerRow = TableRow(children: <TableCell>[
-        buildTableCell(entry.key, TextAlign.right),
-        ...roundCells
-      ]);
-      dataRows.add(playerRow);
-    }
-
-    return Table(
-      border: TableBorder.all(color: Colors.white),
-      defaultColumnWidth: const IntrinsicColumnWidth(),
-      children: <TableRow>[firstRow, ...dataRows],
+    return Expanded(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+            columnSpacing: 20,
+            horizontalMargin: 10,
+            headingRowColor: MaterialStateProperty.all(matchTableHeaderColor),
+            dataRowColor: MaterialStateProperty.all(matchTableDataColor),
+            border: TableBorder.all(
+              color: matchTableBorderColor,
+              width: 1,
+            ),
+            columns: List.generate(
+              numRounds,
+              (index) => DataColumn(
+                label: Expanded(
+                  child: Text(
+                    '$index',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: matchTableHeaderTextColor),
+                  ),
+                ),
+              ),
+            ),
+            rows: [
+              ...match.players.map((player) => DataRow(
+                    cells: rounds[player]!
+                        .map(
+                          (round) => DataCell(
+                            Container(
+                              alignment: AlignmentDirectional.center,
+                              child: Text(
+                                NumberFormat('########.#').format(round.score),
+                                style: const TextStyle(
+                                    color: matchTableDataTextColor),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ))
+            ]),
+      ),
     );
   }
 }
